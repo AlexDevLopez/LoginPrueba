@@ -40,7 +40,6 @@
     </div>
 
     <script>
-        // Evita que el navegador vuelva a enviar el formulario al recargar la página
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
