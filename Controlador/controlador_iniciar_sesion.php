@@ -9,8 +9,9 @@
                 $sql = $conexion -> query("SELECT * FROM usuarios WHERE email ='$correo' AND password ='$clave'");
 
                 if ($sql && $sql->num_rows > 0) {
-                    echo "<script>alert('Usuario autenticado');</script>";
-                    header("Location: inicio.php");
+                    $datos = $sql->fetch_object();
+                    $_SESSION['usuario'] = $datos->name;
+                    echo "<script>alert('Usuario autenticado'); window.location.href='inicio.php';</script>";
                 } else {
                     echo "<script>alert('Usuario no autenticado');</script>";
                 }

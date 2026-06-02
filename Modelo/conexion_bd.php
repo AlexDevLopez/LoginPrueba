@@ -12,5 +12,3 @@ if ($conexion->connect_error) {
     echo "Conexión fallida" . $conexion->connect_error;
     exit;
 }
-
-?>

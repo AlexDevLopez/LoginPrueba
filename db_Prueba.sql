@@ -1,5 +1,6 @@
-CREATE DATABASE IF NOT EXISTS eccomerce CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE eccomerce;
+-- Mi base de datos de prueba
+CREATE DATABASE IF NOT EXISTS ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE ecommerce;
 CREATE TABLE IF NOT EXISTS usuarios(
     id BIGINT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(50) NOT NULL, 
@@ -7,4 +8,80 @@ CREATE TABLE IF NOT EXISTS usuarios(
     password VARCHAR(50) NOT NULL,
     role ENUM('admin','cliente','usuario') NOT NULL DEFAULT 'cliente',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Base de Datos Real
+CREATE DATABASE IF NOT EXISTS ECOMMERCE 
+CHARACTER SET UTF8MB4 COLLATE UTF8MB4_GENERAL_CI;
+
+USE ECOMMERCE;
+
+CREATE TABLE users  (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    NAME  VARCHAR (50) NOT NULL,
+    email VARCHAR (40) NOT NULL UNIQUE ,
+    PASSWORD VARCHAR (50) NOT NULL,
+    ROLE ENUM('admin','cliente', 'usuario') NOT NULL DEFAULT 'cliente', 
+    created_at TIMESTAMP 	DEFAULT CURRENT_TIMESTAMP 
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    NAME  VARCHAR (40) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS products(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    NAME  VARCHAR (80) NOT NULL,
+    DESCRIPTION  VARCHAR (350) NOT NULL, 
+    price  DECIMAL (10,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    image VARCHAR (255),
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    categories_id BIGINT,
+    FOREIGN KEY (categories_id) REFERENCES  categories (id)
+    ON DELETE RESTRICT ON UPDATE CASCADE 
+);
+
+CREATE TABLE IF NOT EXISTS orders  (
+    id BIGINT AUTO_INCREMENT  PRIMARY KEY,
+    billing_name VARCHAR (255) NOT NULL,
+    billing_address VARCHAR (500) NOT NULL, 
+    ship_address VARCHAR (500) NOT NULL, 
+    total DECIMAL (10,2)NOT NULL, 
+    status ENUM('pending', 'paid', 'shipped', 'cancelled') NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    users_id BIGINT, 
+    FOREIGN KEY (users_id ) REFERENCES users(id)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    NAME  VARCHAR(255) NOT NULL, 
+    unit_price DECIMAL(10,2) NOT NULL,
+    quantity  INT NOT NULL DEFAULT 1,
+    Subtotal DECIMAL(10,2) NOT NULL, 	
+    products_id BIGINT,
+    orders_id BIGINT,
+
+    FOREIGN KEY (products_id) REFERENCES  products (id)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+
+    FOREIGN KEY (orders_id) REFERENCES orders (id)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS cart_items(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    quantity INT NOT NULL DEFAULT 1,
+    added_at	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    users_id BIGINT,
+    products_id BIGINT ,
+
+    FOREIGN KEY (users_id) REFERENCES users (id)
+    ON DELETE RESTRICT ON UPDATE  CASCADE,
+
+    FOREIGN KEY (products_id) REFERENCES  products (id)
+    ON DELETE RESTRICT ON UPDATE  CASCADE 
 );

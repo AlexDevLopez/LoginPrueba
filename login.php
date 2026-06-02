@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +30,7 @@
                 <div class="cuenta">
                     <input type="submit" value="Iniciar sesión" name="enviar_login" class="boton_envio">
                     <p> ¿No tienes una cuenta? <a href="registro_usuario.php"> Regístrate </a> </p>
+                    <p> ¿Olvidaste tu contraseña? <a href="recuperar_password.php"> Recupérala </a> </p>
                 </div>
             </div>
         </form>
